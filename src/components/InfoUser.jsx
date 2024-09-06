@@ -6,6 +6,7 @@ import { Videos, ChannelCard } from ".";
 
 import ReactPlayer from "react-player";
 import { DOMAIN_BE_IMG } from "../utils/constants";
+import { DOMAIN_IMG, uploadCloudinary } from "../utils/fetchFromAPI";
 
 const InfoUser = () => {
   const [channelDetail, setChannelDetail] = useState();
@@ -33,9 +34,20 @@ const InfoUser = () => {
       <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabIndex={0}>
         <div className="row">
           <div className="col-2">
-            <img className="rounded-circle" src={avatar} width="100%" />
+            <img className="rounded-circle" src={`${DOMAIN_IMG}public/img/bg.jpg`} width="100%" />
 
-            <input className="form-control" type="file" id="formFile" />
+            <input className="form-control" type="file" id="formFile" onChange={(e)=>{
+              let file = document.querySelector("#formFile").files
+              console.log(file)
+              console.log("first",e.target.files)
+              let formData = new FormData()
+              formData.append("file",file[0])
+              formData.append("upload_preset","sgxk7nqp")
+              uploadCloudinary(formData).then(result => {
+                console.log(result.url)
+                //call api save img
+              })
+            }} />
 
           </div>
           <div className=" col-10">
